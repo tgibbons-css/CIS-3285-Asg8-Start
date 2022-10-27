@@ -123,19 +123,20 @@ namespace SingleResponsibilityPrinciple
         private void StoreTrades(IEnumerable<TradeRecord> trades)
         {
             LogMessage("INFO: Connecting to database");
-            // The first connection string uses |DataDirectory| 
-            //    and assumes the tradedatabase.mdf file is stored in 
-            //    SingleResponsibilityPrinciple\bin\Debug 
-            //    using (var connection = new System.Data.SqlClient.SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\tradedatabase.mdf;Integrated Security=True;Connect Timeout=30;"))
             // Template for connection string from database connection file
             //    The @ sign allows for back slashes
             //    Watch for double quotes which must be escaped using "" 
             //    Watch for extra spaces after C: and avoid paths with - hyphens -
-            //    using (var connection = new System.Data.SqlClient.SqlConnection(@"  ;"))
-            using (var connection = new System.Data.SqlClient.SqlConnection("Data Source=(local);Initial Catalog=TradeDatabase;Integrated Security=True;"))
-            // This users the Azure connection string"))
-            //using (var connection = new System.Data.SqlClient.SqlConnection("Data Source=cis3115-server.database.windows.net;Initial Catalog=CIS3115;User ID=cis3115;Password=Saints4SQL;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
-
+            string genericConnectString = @"Data Source=(local);Initial Catalog=TradeDatabase;Integrated Security=True;";
+            // The datadirConnectString connection string uses |DataDirectory| 
+            //    and assumes the tradedatabase.mdf file is stored in 
+            //    SingleResponsibilityPrinciple\bin\Debug 
+            string datadirConnectString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\tradedatabase.mdf;Integrated Security=True;Connect Timeout=30;";
+            // This users the Azure connection string
+            string azureConnectString = @"Data Source=cis3115-server.database.windows.net;Initial Catalog=CIS3115;User ID=cis3115;Password=Saints4SQL;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+           
+            // Change the connection string used to match the one you want
+            using (var connection = new System.Data.SqlClient.SqlConnection(genericConnectString))
             {
                 LogMessage("INFO:Going to open database connection");
                 connection.Open();
