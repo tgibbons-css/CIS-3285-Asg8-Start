@@ -137,9 +137,9 @@ namespace SingleResponsibilityPrinciple
             //using (var connection = new System.Data.SqlClient.SqlConnection("Data Source=cis3115-server.database.windows.net;Initial Catalog=CIS3115;User ID=cis3115;Password=Saints4SQL;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
 
             {
-                LogMessage("Going to open database connection");
+                LogMessage("INFO:Going to open database connection");
                 connection.Open();
-                LogMessage("Database connection OPEN");
+                LogMessage("INFO:Database connection OPEN");
 
                 using (var transaction = connection.BeginTransaction())
                 {
@@ -153,7 +153,7 @@ namespace SingleResponsibilityPrinciple
                         command.Parameters.AddWithValue("@destinationCurrency", trade.DestinationCurrency);
                         command.Parameters.AddWithValue("@lots", trade.Lots);
                         command.Parameters.AddWithValue("@price", trade.Price);
-                        LogMessage("Adding trade to database...");
+                        LogMessage("INFO: Adding trade to database...");
 
                         command.ExecuteNonQuery();
                     }
