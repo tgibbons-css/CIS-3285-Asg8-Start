@@ -133,8 +133,14 @@ namespace SingleResponsibilityPrinciple
             //    Watch for extra spaces after C: and avoid paths with - hyphens -
             //    using (var connection = new System.Data.SqlClient.SqlConnection(@"  ;"))
             using (var connection = new System.Data.SqlClient.SqlConnection("Data Source=(local);Initial Catalog=TradeDatabase;Integrated Security=True;"))
+            // This users the Azure connection string"))
+            //using (var connection = new System.Data.SqlClient.SqlConnection("Data Source=cis3115-server.database.windows.net;Initial Catalog=CIS3115;User ID=cis3115;Password=Saints4SQL;Connect Timeout=60;Encrypt=True;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"))
+
             {
+                LogMessage("Going to open database connection");
                 connection.Open();
+                LogMessage("Database connection OPEN");
+
                 using (var transaction = connection.BeginTransaction())
                 {
                     foreach (var trade in trades)
@@ -147,6 +153,7 @@ namespace SingleResponsibilityPrinciple
                         command.Parameters.AddWithValue("@destinationCurrency", trade.DestinationCurrency);
                         command.Parameters.AddWithValue("@lots", trade.Lots);
                         command.Parameters.AddWithValue("@price", trade.Price);
+                        LogMessage("Adding trade to database...");
 
                         command.ExecuteNonQuery();
                     }
